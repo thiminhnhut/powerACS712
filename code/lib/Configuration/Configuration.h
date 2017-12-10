@@ -32,7 +32,7 @@
     #endif
 #endif
 
-#define __MILLI_VOLTAGE_OFFSET__ 2500.0
+#define __MILLIS_VOLTAGE_OFFSET__ 2500.0
 #define __NUMBER_SAMPLE__ 500
 
 #define __ACTIVE_LOAD__ HIGH
@@ -51,5 +51,16 @@
 
 // Define baud rate
 #define __BAUD_SERIAL__ 115200
+
+#define __MILLIS_TIME_UPDATE__ 500
+
+// Define Blynk App
+#define __BLYNK_LCD_PIN__ 0 // V0
+#define __BLYNK_LED_PIN__ 1 // V1
+#define __BLYNK_LOAD_PIN__ 2 // V2
+#define __BLYNK_GRAPH_PIN__ 3 // V3
+#define __BLYNK_HISTORY_GRAPH_CURRENT_PIN__ 4 // V4
+#define __BLYNK_HISTORY_GRAPH_POWER_PIN__ 5 // V5
+#define __BLYNK_HISTORY_GRAPH_ENERGY_PIN__ 6 // V6
 
 #endif

@@ -11,6 +11,7 @@ private:
 public:
     ControlLoad();
     void setPin(unsigned char load_pin);
-    void control(float current, float maxCurrent);
+    bool isStatusControl(float current, float maxCurrent);
+    void control(bool isControl);
 };
 #endif

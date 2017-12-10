@@ -9,10 +9,15 @@ private:
     unsigned char _current_pin;
     float _milli_voltage_offset, _sensitivity;
     unsigned short int _number_sample;
+    float _voltage = 220.0;
+    float _cosphi = 0.86;
 
 public:
     PowerAC(float milli_voltage_offset, float sensitivity, unsigned short int number_sample);
     void setPin(unsigned char current_pin);
     float getCurrent();
+    float getPower(float current);
+    float getTime(unsigned long milli);
+    float getEnergy(float power, float timeWorking);
 };
 #endif
