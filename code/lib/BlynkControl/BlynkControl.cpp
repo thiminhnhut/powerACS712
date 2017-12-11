@@ -8,20 +8,16 @@ WidgetLED ledBlynk(__BLYNK_LED_PIN__);
 
 bool isControlLoad;
 
-BlynkControl::BlynkControl(const char* auth, const char* ssid, const char* pass) {
-    _auth = auth;
-    _ssid = ssid;
-    _pass = pass;
+BlynkControl::BlynkControl() {
+
 }
 
-BlynkControl::BlynkControl(const char* auth, const char* ssid, const char* pass, int pin) {
-    _auth = auth;
-    _ssid = ssid;
-    _pass = pass;
+void BlynkControl::init(const char* auth, const char* ssid, const char* pass) {
+    Blynk.begin(auth, ssid, pass);
 }
 
-void BlynkControl::init() {
-    Blynk.begin(_auth, _ssid, _pass);
+void BlynkControl::init(const char* auth) {
+    Blynk.config(auth);
 }
 
 void BlynkControl::run() {

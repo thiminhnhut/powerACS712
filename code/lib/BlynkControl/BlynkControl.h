@@ -6,16 +6,14 @@
 
 class BlynkControl {
 private:
-    const char* _auth;
-    const char* _ssid;
-    const char* _pass;
     void _textLCD(String text, byte lineNumber);
 
 public:
-    BlynkControl(const char* auth, const char* ssid, const char* pass);
-    BlynkControl(const char* auth, const char* ssid, const char* pass, int pin);
+    BlynkControl();
 
-    void init();
+    void init(const char* auth, const char* ssid, const char* pass);
+    void init(const char* auth);
+    
     void run();
     void delay(unsigned long milli);
 

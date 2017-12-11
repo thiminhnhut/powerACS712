@@ -10,23 +10,21 @@
 
 #include <Arduino.h>
 #include "Configuration.h"
+#include "WiFiSupport.h"
 #include "DisplayLCD.h"
 #include "PowerDC.h"
 #include "PowerAC.h"
 #include "ControlLoad.h"
 #include "BlynkControl.h"
-// #include <ESP8266WiFi.h>
-// #include <BlynkSimpleEsp8266.h>
 char auth[] = "8125642efd0a4fdc98bbeaaa760405b0";
-char ssid[] = "Tam7";
-char pass[] = "21019400";
 
 // Object Initation
+WiFiSupport WiFiConnect;
 PowerDC DC(__MILLIS_VOLTAGE_OFFSET__, __SENSITIVITY__);
 PowerAC AC(__MILLIS_VOLTAGE_OFFSET__, __SENSITIVITY__, __NUMBER_SAMPLE__);
 DisplayLCD LCD;
 ControlLoad Load;
-BlynkControl BlynkApp(auth, ssid, pass);
+BlynkControl BlynkApp;
 
 // Function prototype
 void controlCurrentDC(bool _isControlLoadBlynk);
@@ -38,7 +36,9 @@ bool isControlLoadBlynk = false;
 void setup() {
     Serial.begin(__BAUD_SERIAL__);
 
-    BlynkApp.init();
+    WiFiConnect.smartConfig();
+
+    BlynkApp.init(auth);
 
     DC.setPin(__PIN_CURRENT_DC__);
     AC.setPin(__PIN_CURRENT_AC__);
@@ -94,7 +94,6 @@ void controlCurrentAC(bool _isControlLoadBlynk) {
     _power = AC.getPower(_ampereCurrent);
     _time = __MILLIS_TIME_UPDATE__/1000.0;
     _energy = AC.getEnergy(_power, _time);
-    Serial.println(_time);
 
     LCD.text("Current AC", String(_ampereCurrent) + "A");
 
