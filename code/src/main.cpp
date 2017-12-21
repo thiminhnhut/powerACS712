@@ -77,6 +77,7 @@ void controlCurrentDC(bool _isControlLoadBlynk) {
 
     BlynkApp.textLCD("Current DC", String(_ampereCurrent) + "A");
     BlynkApp.sendStatus(_isControlLoad);
+    BlynkApp.send(__BLYNK_HISTORY_GRAPH_DC_CURRENT_PIN__, _ampereCurrent);
 
     Server.set(__THINGSPEAK_DC_FIELD_CURRENT__, _ampereCurrent);
     Server.set(__THINGSPEAK_DC_FIELD_WORKING__, _isControlLoad);
@@ -107,6 +108,7 @@ void controlCurrentAC(bool _isControlLoadBlynk) {
     String textPower = String(_power) + "W";
     BlynkApp.textLCD("Load AC", textCurrent + " " + textPower);
     BlynkApp.sendStatus(_isControlLoad);
+    BlynkApp.send(__BLYNK_HISTORY_GRAPH_AC_CURRENT_PIN__, _ampereCurrent);
 
     Server.set(__THINGSPEAK_AC_FIELD_CURRENT__, _ampereCurrent);
     Server.set(__THINGSPEAK_AC_FIELD_WORKING__, _isControlLoad);

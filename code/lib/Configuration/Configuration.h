@@ -60,10 +60,8 @@
 #define __BLYNK_LCD_PIN__ 0 // V0
 #define __BLYNK_LED_PIN__ 1 // V1
 #define __BLYNK_LOAD_PIN__ 2 // V2
-#define __BLYNK_GRAPH_PIN__ 3 // V3
-#define __BLYNK_HISTORY_GRAPH_CURRENT_PIN__ 4 // V4
-#define __BLYNK_HISTORY_GRAPH_POWER_PIN__ 5 // V5
-#define __BLYNK_HISTORY_GRAPH_ENERGY_PIN__ 6 // V6
+#define __BLYNK_HISTORY_GRAPH_DC_CURRENT_PIN__ 3 // V3
+#define __BLYNK_HISTORY_GRAPH_AC_CURRENT_PIN__ 4 // V4
 
 // Define ThingSpeak Web Server
 #define __THINGSPEAK_DC_FIELD_CURRENT__ 1
