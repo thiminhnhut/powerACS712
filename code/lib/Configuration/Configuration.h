@@ -52,7 +52,9 @@
 // Define baud rate
 #define __BAUD_SERIAL__ 115200
 
+// Define timer upload
 #define __MILLIS_TIME_UPDATE__ 500
+#define __MILLIS_TIME_UPLOAD__ 15000
 
 // Define Blynk App
 #define __BLYNK_LCD_PIN__ 0 // V0
@@ -62,5 +64,11 @@
 #define __BLYNK_HISTORY_GRAPH_CURRENT_PIN__ 4 // V4
 #define __BLYNK_HISTORY_GRAPH_POWER_PIN__ 5 // V5
 #define __BLYNK_HISTORY_GRAPH_ENERGY_PIN__ 6 // V6
+
+// Define ThingSpeak Web Server
+#define __THINGSPEAK_DC_FIELD_CURRENT__ 1
+#define __THINGSPEAK_DC_FIELD_WORKING__ 2
+#define __THINGSPEAK_AC_FIELD_CURRENT__ 3
+#define __THINGSPEAK_AC_FIELD_WORKING__ 4
 
 #endif

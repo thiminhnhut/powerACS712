@@ -16,15 +16,20 @@
 #include "PowerAC.h"
 #include "ControlLoad.h"
 #include "BlynkControl.h"
-char auth[] = "8125642efd0a4fdc98bbeaaa760405b0";
+#include "ThingspeakServer.h"
+
+unsigned long channelNumberThingspeak = 382411;
+const char* writeAPIKeyThingspeak = "MNM4PVW6OK72MSFR";
+char authBlynk[] = "8125642efd0a4fdc98bbeaaa760405b0";
 
 // Object Initation
 WiFiSupport WiFiConnect;
-PowerDC DC(__MILLIS_VOLTAGE_OFFSET__, __SENSITIVITY__);
-PowerAC AC(__MILLIS_VOLTAGE_OFFSET__, __SENSITIVITY__, __NUMBER_SAMPLE__);
+PowerDC DC(__PIN_CURRENT_DC__, __MILLIS_VOLTAGE_OFFSET__, __SENSITIVITY__);
+PowerAC AC(__PIN_CURRENT_AC__, __MILLIS_VOLTAGE_OFFSET__, __SENSITIVITY__, __NUMBER_SAMPLE__);
 DisplayLCD LCD;
-ControlLoad Load;
+ControlLoad Load(__PIN_CONTROL_LOAD__);
 BlynkControl BlynkApp;
+ThingspeakServer Server(channelNumberThingspeak, writeAPIKeyThingspeak);
 
 // Function prototype
 void controlCurrentDC(bool _isControlLoadBlynk);
@@ -38,12 +43,9 @@ void setup() {
 
     WiFiConnect.smartConfig();
 
-    BlynkApp.init(auth);
+    BlynkApp.init(authBlynk);
 
-    DC.setPin(__PIN_CURRENT_DC__);
-    AC.setPin(__PIN_CURRENT_AC__);
-
-    Load.setPin(__PIN_CONTROL_LOAD__);
+    Server.init();
 
     LCD.init();
 
@@ -51,8 +53,8 @@ void setup() {
 
 void loop() {
     isControlLoadBlynk = BlynkApp.readControlLoad();
-    // controlCurrentDC(isControlLoadBlynk);
-    controlCurrentAC(isControlLoadBlynk);
+    controlCurrentDC(isControlLoadBlynk);
+    // controlCurrentAC(isControlLoadBlynk);
     BlynkApp.run();
     BlynkApp.delay(__MILLIS_TIME_UPDATE__);
 }
@@ -69,14 +71,18 @@ void controlCurrentDC(bool _isControlLoadBlynk) {
         _isControlLoad = _isControlLoadBlynk;
     }
 
+    Load.control(_isControlLoad);
+
     LCD.text("Current DC", String(_ampereCurrent) + "A");
 
     BlynkApp.textLCD("Current DC", String(_ampereCurrent) + "A");
-    BlynkApp.send(__BLYNK_GRAPH_PIN__, _ampereCurrent);
-    BlynkApp.send(__BLYNK_HISTORY_GRAPH_CURRENT_PIN__, _ampereCurrent);
-    BlynkApp.status(_isControlLoad);
+    BlynkApp.sendStatus(_isControlLoad);
 
-    Load.control(_isControlLoad);
+    Server.set(__THINGSPEAK_DC_FIELD_CURRENT__, _ampereCurrent);
+    Server.set(__THINGSPEAK_DC_FIELD_WORKING__, _isControlLoad);
+    Server.send();
+
+    BlynkApp.delay(__MILLIS_TIME_UPLOAD__);
 }
 
 void controlCurrentAC(bool _isControlLoadBlynk) {
@@ -102,7 +108,9 @@ void controlCurrentAC(bool _isControlLoadBlynk) {
     BlynkApp.send(__BLYNK_HISTORY_GRAPH_CURRENT_PIN__, _ampereCurrent);
     BlynkApp.send(__BLYNK_HISTORY_GRAPH_POWER_PIN__, _power);
     BlynkApp.send(__BLYNK_HISTORY_GRAPH_ENERGY_PIN__, _energy);
-    BlynkApp.status(_isControlLoad);
+    BlynkApp.sendStatus(_isControlLoad);
+
+    Server.send(__THINGSPEAK_AC_FIELD_CURRENT__, _ampereCurrent);
 
     Load.control(_isControlLoad);
 }

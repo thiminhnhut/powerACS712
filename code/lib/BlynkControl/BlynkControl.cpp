@@ -62,7 +62,7 @@ bool BlynkControl::readControlLoad() {
     return isControlLoad;
 }
 
-void BlynkControl::status(bool isStatus) {
+void BlynkControl::sendStatus(bool isStatus) {
     if (isStatus) {
         ledBlynk.on();
     } else {

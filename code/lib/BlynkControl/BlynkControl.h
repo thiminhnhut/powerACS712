@@ -13,7 +13,7 @@ public:
 
     void init(const char* auth, const char* ssid, const char* pass);
     void init(const char* auth);
-    
+
     void run();
     void delay(unsigned long milli);
 
@@ -23,7 +23,7 @@ public:
     void send(int pin, int value);
     bool readControlLoad();
 
-    void status(bool isStatus);
+    void sendStatus(bool isStatus);
 
 };
 

@@ -1,13 +1,10 @@
 #include "PowerAC.h"
 
-PowerAC::PowerAC(float milli_voltage_offset, float sensitivity, unsigned short int number_sample) {
+PowerAC::PowerAC(unsigned char current_pin, float milli_voltage_offset, float sensitivity, unsigned short int number_sample) {
+    _current_pin = current_pin;
     _milli_voltage_offset = milli_voltage_offset;
     _sensitivity = sensitivity;
     _number_sample = number_sample;
-}
-
-void PowerAC::setPin(unsigned char current_pin) {
-    _current_pin = current_pin;
 }
 
 #ifdef __MODE_NOT_SENSOR__

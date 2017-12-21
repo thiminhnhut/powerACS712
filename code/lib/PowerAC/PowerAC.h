@@ -13,8 +13,7 @@ private:
     float _cosphi = 0.86;
 
 public:
-    PowerAC(float milli_voltage_offset, float sensitivity, unsigned short int number_sample);
-    void setPin(unsigned char current_pin);
+    PowerAC(unsigned char current_pin, float milli_voltage_offset, float sensitivity, unsigned short int number_sample);
     float getCurrent();
     float getPower(float current);
     float getTime(unsigned long milli);

@@ -10,8 +10,7 @@ private:
     float _milli_voltage_offset, _sensitivity;
 
 public:
-    PowerDC(float milli_voltage_offset, float sensitivity);
-    void setPin(unsigned char current_pin);
+    PowerDC(unsigned char current_pin, float milli_voltage_offset, float sensitivity);
     float getCurrent();
 };
 #endif

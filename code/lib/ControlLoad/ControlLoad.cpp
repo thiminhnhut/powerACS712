@@ -1,13 +1,10 @@
 #include "ControlLoad.h"
 
-ControlLoad::ControlLoad() {
-
-}
-
-void ControlLoad::setPin(unsigned char load_pin) {
+ControlLoad::ControlLoad(unsigned char load_pin) {
     _load_pin = load_pin;
     pinMode(_load_pin, OUTPUT);
 }
+
 
 bool ControlLoad::isStatusControl(float current, float maxCurrent) {
     return !(current >= maxCurrent);

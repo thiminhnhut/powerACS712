@@ -9,8 +9,7 @@ private:
     unsigned char _load_pin;
 
 public:
-    ControlLoad();
-    void setPin(unsigned char load_pin);
+    ControlLoad(unsigned char load_pin);
     bool isStatusControl(float current, float maxCurrent);
     void control(bool isControl);
 };
