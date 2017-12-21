@@ -16,7 +16,6 @@ public:
     PowerAC(unsigned char current_pin, float milli_voltage_offset, float sensitivity, unsigned short int number_sample);
     float getCurrent();
     float getPower(float current);
-    float getTime(unsigned long milli);
     float getEnergy(float power, float timeWorking);
 };
 #endif

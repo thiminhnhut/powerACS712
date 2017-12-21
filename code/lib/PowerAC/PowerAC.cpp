@@ -32,10 +32,6 @@ float PowerAC::getPower(float current) {
     return current*_voltage*_cosphi;
 }
 
-float PowerAC::getTime(unsigned long milli) {
-    return (milli - millis())/1000.0;
-}
-
 float PowerAC::getEnergy(float power, float timeWorking) {
     return power*timeWorking;
 }

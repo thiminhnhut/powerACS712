@@ -53,8 +53,8 @@ void setup() {
 
 void loop() {
     isControlLoadBlynk = BlynkApp.readControlLoad();
-    controlCurrentDC(isControlLoadBlynk);
-    // controlCurrentAC(isControlLoadBlynk);
+    // controlCurrentDC(isControlLoadBlynk);
+    controlCurrentAC(isControlLoadBlynk);
     BlynkApp.run();
     BlynkApp.delay(__MILLIS_TIME_UPDATE__);
 }
@@ -98,19 +98,20 @@ void controlCurrentAC(bool _isControlLoadBlynk) {
     }
 
     _power = AC.getPower(_ampereCurrent);
-    _time = __MILLIS_TIME_UPDATE__/1000.0;
-    _energy = AC.getEnergy(_power, _time);
+
+    Load.control(_isControlLoad);
 
     LCD.text("Current AC", String(_ampereCurrent) + "A");
 
-    BlynkApp.textLCD("Current AC", String(_ampereCurrent) + "A");
-    BlynkApp.send(__BLYNK_GRAPH_PIN__, _ampereCurrent);
-    BlynkApp.send(__BLYNK_HISTORY_GRAPH_CURRENT_PIN__, _ampereCurrent);
-    BlynkApp.send(__BLYNK_HISTORY_GRAPH_POWER_PIN__, _power);
-    BlynkApp.send(__BLYNK_HISTORY_GRAPH_ENERGY_PIN__, _energy);
+    String textCurrent = String(_ampereCurrent) + "A";
+    String textPower = String(_power) + "W";
+    BlynkApp.textLCD("Load AC", textCurrent + " " + textPower);
     BlynkApp.sendStatus(_isControlLoad);
 
-    Server.send(__THINGSPEAK_AC_FIELD_CURRENT__, _ampereCurrent);
+    Server.set(__THINGSPEAK_AC_FIELD_CURRENT__, _ampereCurrent);
+    Server.set(__THINGSPEAK_AC_FIELD_WORKING__, _isControlLoad);
+    Server.set(__THINGSPEAK_AC_FIELD_POWER__, _power);
+    Server.send();
 
-    Load.control(_isControlLoad);
+    BlynkApp.delay(__MILLIS_TIME_UPLOAD__);
 }
