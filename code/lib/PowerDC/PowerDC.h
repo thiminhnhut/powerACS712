@@ -2,15 +2,16 @@
 #define PowerDC_h
 
 #include <Arduino.h>
-#include "Configuration.h"
 
 class PowerDC {
 private:
     unsigned char _current_pin;
-    float _milli_voltage_offset, _sensitivity;
+    unsigned char _kVoltage;
+    float _milli_voltage_offset = 2500.0;
+    float _sensitivity;
 
 public:
-    PowerDC(unsigned char current_pin, float milli_voltage_offset, float sensitivity);
+    PowerDC(unsigned char current_pin, unsigned char type_sensor_current, float analogMax);
     float getCurrent();
 };
 #endif

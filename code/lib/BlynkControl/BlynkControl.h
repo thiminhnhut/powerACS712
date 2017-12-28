@@ -2,7 +2,6 @@
 #define  Blynk_h
 
 #include <Arduino.h>
-#include "Configuration.h"
 
 class BlynkControl {
 private:

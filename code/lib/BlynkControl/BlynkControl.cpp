@@ -3,6 +3,10 @@
 #include "Blynk/BlynkApi.h"
 #include <BlynkSimpleEsp8266.h>
 
+#define __BLYNK_LCD_PIN__ 0 // V0
+#define __BLYNK_LED_PIN__ 1 // V1
+#define __BLYNK_LOAD_PIN__ 2 // V2
+
 WidgetLCD lcdBlynk(__BLYNK_LCD_PIN__);
 WidgetLED ledBlynk(__BLYNK_LED_PIN__);
 
@@ -45,8 +49,8 @@ void BlynkControl::_textLCD(String text, byte lineNumber) {
 
 void BlynkControl::textLCD(String text_line1, String text_line2) {
     lcdBlynk.clear();
-    _textLCD(text_line1, __LCD_LINE_1__);
-    _textLCD(text_line2, __LCD_LINE_2__);
+    _textLCD(text_line1, 0);
+    _textLCD(text_line2, 1);
 }
 
 void BlynkControl::textLCD(byte column, byte row, String text) {

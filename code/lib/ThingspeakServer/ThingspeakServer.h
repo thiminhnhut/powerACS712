@@ -3,7 +3,6 @@
 
 #include <Arduino.h>
 #include <ThingSpeak.h>
-#include "Configuration.h"
 
 class ThingspeakServer {
 private:

@@ -1,6 +1,6 @@
 #include "DisplayLCD.h"
 
-LiquidCrystal_I2C lcd(__ADDRESS_LCD_I2C__, __LCD_COLUMNS__, __LCD_ROWS__);
+LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 DisplayLCD::DisplayLCD() {
 
@@ -27,8 +27,8 @@ void DisplayLCD::_text(String text, byte lineNumber) {
 
 void DisplayLCD::text(String text_line1, String text_line2) {
     lcd.clear();
-    _text(text_line1, __LCD_LINE_1__);
-    _text(text_line2, __LCD_LINE_2__);
+    _text(text_line1, 0);
+    _text(text_line2, 1);
 }
 
 void DisplayLCD::text(byte column, byte row, String text) {
