@@ -8,5 +8,6 @@ class WiFiSupport {
 public:
     WiFiSupport();
     void smartConfig();
+    void smartConfig(unsigned char ledStatus);
 };
 #endif
