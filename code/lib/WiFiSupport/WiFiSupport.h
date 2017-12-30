@@ -5,9 +5,12 @@
 #include <ESP8266WiFi.h>
 
 class WiFiSupport {
+private:
+    void _smartConfig();
+
 public:
     WiFiSupport();
     void smartConfig();
-    void smartConfig(unsigned char ledStatus);
+    void smartConfig(unsigned char ledStatus, bool status);
 };
 #endif
