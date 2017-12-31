@@ -17,14 +17,7 @@
 #include <BlynkControl.h>
 #include <ThingspeakServer.h>
 
-// Mode Debug
-#define __MODE_NOT_SENSOR__
-
-#define __CURRENT_DC__
-#define __CURRENT_AC__
-
 #define __PIN_CONTROL_LOAD__ D3
-#define __PIN_STATUS_LOAD__ D4
 #define __MAX_CURRENT_AMPERE__ 15
 
 #define __PIN_CURRENT_DC__ A0
@@ -59,17 +52,13 @@ BlynkControl BlynkApp;
 ThingspeakServer Server(channelNumberThingspeak, writeAPIKeyThingspeak);
 
 // Function prototype
-void controlCurrentDC(bool _isControlLoadBlynk);
-void controlCurrentAC(bool _isControlLoadBlynk);
-
-// Variable Declaration
-bool isControlLoadBlynk = false;
+void controlCurrentDC();
+void controlCurrentAC();
 
 void setup() {
     Serial.begin(115200);
 
-    WiFiConnect.begin("Tam7", "21019400");
-    // WiFiConnect.smartConfig(LED_BUILTIN, false);
+    WiFiConnect.smartConfig(LED_BUILTIN, false);
 
     BlynkApp.init(authBlynk);
 
@@ -80,24 +69,15 @@ void setup() {
 }
 
 void loop() {
-    isControlLoadBlynk = BlynkApp.readControlLoad();
-    // controlCurrentDC(isControlLoadBlynk);
-    controlCurrentAC(isControlLoadBlynk);
+    // controlCurrentDC();
+    controlCurrentAC();
     BlynkApp.run();
     BlynkApp.delay(__MILLIS_TIME_UPDATE__);
 }
 
-void controlCurrentDC(bool _isControlLoadBlynk) {
-    float _ampereCurrent;
-    bool _isControlLoad;
-
-    if (_isControlLoadBlynk) {
-        _ampereCurrent = DC.getCurrent();
-        _isControlLoad = Load.isStatusControl(_ampereCurrent, __MAX_CURRENT_AMPERE__);
-    } else {
-        _ampereCurrent = 0.0;
-        _isControlLoad = _isControlLoadBlynk;
-    }
+void controlCurrentDC() {
+    float _ampereCurrent = DC.getCurrent();
+    bool _isControlLoad = Load.isStatusControl(_ampereCurrent, __MAX_CURRENT_AMPERE__);
 
     Load.control(_isControlLoad);
 
@@ -114,19 +94,10 @@ void controlCurrentDC(bool _isControlLoadBlynk) {
     BlynkApp.delay(__MILLIS_TIME_UPLOAD__);
 }
 
-void controlCurrentAC(bool _isControlLoadBlynk) {
-    float _ampereCurrent, _power;
-    bool _isControlLoad;
-
-    if (_isControlLoadBlynk) {
-        _ampereCurrent = AC.getCurrent();
-        _isControlLoad = Load.isStatusControl(_ampereCurrent, __MAX_CURRENT_AMPERE__);
-    } else {
-        _ampereCurrent = 0.0;
-        _isControlLoad = _isControlLoadBlynk;
-    }
-
-    _power = AC.getPower(_ampereCurrent);
+void controlCurrentAC() {
+    float _ampereCurrent = AC.getCurrent();
+    bool _isControlLoad = Load.isStatusControl(_ampereCurrent, __MAX_CURRENT_AMPERE__);
+    float _power = AC.getPower(_ampereCurrent);
 
     Load.control(_isControlLoad);
 
@@ -134,6 +105,7 @@ void controlCurrentAC(bool _isControlLoadBlynk) {
 
     String textCurrent = String(_ampereCurrent) + "A";
     String textPower = String(_power) + "W";
+
     BlynkApp.textLCD("Load AC", textCurrent + " " + textPower);
     BlynkApp.sendStatus(_isControlLoad);
     BlynkApp.send(__BLYNK_HISTORY_GRAPH_AC_CURRENT_PIN__, _ampereCurrent);

@@ -62,10 +62,6 @@ void BlynkControl::send(int pin, int value) {
     Blynk.virtualWrite(pin, value);
 }
 
-bool BlynkControl::readControlLoad() {
-    return isControlLoad;
-}
-
 void BlynkControl::sendStatus(bool isStatus) {
     if (isStatus) {
         ledBlynk.on();
@@ -77,9 +73,4 @@ void BlynkControl::sendStatus(bool isStatus) {
 
 BLYNK_CONNECTED() {
     Blynk.syncAll();
-}
-
-BLYNK_WRITE(__BLYNK_LOAD_PIN__) {
-    bool pinValue = param.asInt();
-    isControlLoad = pinValue;
 }

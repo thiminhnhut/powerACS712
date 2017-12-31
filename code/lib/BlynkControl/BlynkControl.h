@@ -20,7 +20,6 @@ public:
     void textLCD(byte column, byte row, String text);
 
     void send(int pin, int value);
-    bool readControlLoad();
 
     void sendStatus(bool isStatus);
 
