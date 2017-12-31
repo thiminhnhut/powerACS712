@@ -34,17 +34,33 @@ InitACS712_AC PowerAC::_init() {
 float PowerAC::getCurrent() {
     InitACS712_AC _InitACS712_AC = _init();
 
-    unsigned short int _maxPointPeak = 0;
-    for (int i = 0; i < _number_sample; i++) {
+    unsigned int minValue = 1024, maxValue = 0, deltaValue;
+
+    uint32_t start_time = millis();
+    while (millis() - start_time < 1000) {
         unsigned short int _adc_value = analogRead(_current_pin);
-        if (_adc_value > _maxPointPeak) {
-            _maxPointPeak = _adc_value;
+
+        if (_adc_value > maxValue) {
+            maxValue = _adc_value;
+        }
+
+        if (_adc_value < minValue) {
+            minValue = _adc_value;
         }
     }
 
-    float _milliVoltage = _InitACS712_AC._kVoltage*_maxPointPeak*5.0*1000.0/1024.0;
-    Serial.println(_milliVoltage);
-    float _ampereCurrent = (_milliVoltage - _milli_voltage_offset)/(_InitACS712_AC._sensitivity*sqrt(2));
+    if (maxValue - minValue <= 2) {
+        deltaValue = 0;
+    } else {
+        deltaValue = maxValue - minValue;
+    }
+
+    float _voltage = _InitACS712_AC._kVoltage*deltaValue*5.0/1024.0;
+
+    Serial.println("Min = " + String(minValue) + " Max = " + String(maxValue));
+
+    float _ampereCurrent = (_voltage*sqrt(2)*1000.0)/_InitACS712_AC._sensitivity;
+
     return _ampereCurrent;
 }
 
