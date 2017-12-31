@@ -12,5 +12,6 @@ public:
     WiFiSupport();
     void smartConfig();
     void smartConfig(unsigned char ledStatus, bool status);
+    void begin(const char *ssid, const char *password);
 };
 #endif

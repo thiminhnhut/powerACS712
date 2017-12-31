@@ -68,7 +68,8 @@ bool isControlLoadBlynk = false;
 void setup() {
     Serial.begin(115200);
 
-    WiFiConnect.smartConfig(LED_BUILTIN, false);
+    WiFiConnect.begin("Tam7", "21019400");
+    // WiFiConnect.smartConfig(LED_BUILTIN, false);
 
     BlynkApp.init(authBlynk);
 

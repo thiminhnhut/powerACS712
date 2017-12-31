@@ -5,6 +5,18 @@ WiFiSupport::WiFiSupport() {
 
 }
 
+void WiFiSupport::begin(const char *ssid, const char *password) {
+    WiFi.begin(ssid, password);
+
+    while (WiFi.status() != WL_CONNECTED) {
+      delay(500);
+      Serial.print(".");
+    }
+
+    Serial.println("IP address: ");
+    Serial.println(WiFi.localIP());
+}
+
 void WiFiSupport::_smartConfig() {
     WiFi.mode(WIFI_STA);
     delay(5000);
