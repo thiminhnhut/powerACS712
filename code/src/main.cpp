@@ -17,11 +17,11 @@
 #include <BlynkControl.h>
 #include <ThingspeakServer.h>
 
-#define __PIN_CONTROL_LOAD__ D3
-#define __MAX_CURRENT_AMPERE__ 15
+#define __PIN_CONTROL_LOAD__ 2 // D4
 
 #define __PIN_CURRENT_DC__ A0
 #define __PIN_CURRENT_AC__ A0
+#define __MAX_CURRENT_AMPERE__ 15
 
 // Define timer upload
 #define __MILLIS_TIME_UPDATE__ 500
@@ -47,7 +47,7 @@ WiFiSupport WiFiConnect;
 PowerDC DC(__PIN_CURRENT_DC__, 20, 3.3);
 PowerAC AC(__PIN_CURRENT_AC__, 20, 3.3);
 DisplayLCD LCD;
-ControlLoad Load(__PIN_CONTROL_LOAD__, HIGH);
+ControlLoad Load(__PIN_CONTROL_LOAD__);
 BlynkControl BlynkApp;
 ThingspeakServer Server(channelNumberThingspeak, writeAPIKeyThingspeak);
 
@@ -65,7 +65,6 @@ void setup() {
     Server.init();
 
     LCD.init();
-
 }
 
 void loop() {
@@ -96,15 +95,15 @@ void controlCurrentDC() {
 
 void controlCurrentAC() {
     float _ampereCurrent = AC.getCurrent();
-    bool _isControlLoad = Load.isStatusControl(_ampereCurrent, __MAX_CURRENT_AMPERE__);
     float _power = AC.getPower(_ampereCurrent);
+    bool _isControlLoad = Load.isStatusControl(_ampereCurrent, __MAX_CURRENT_AMPERE__);
 
     Load.control(_isControlLoad);
 
-    LCD.text("Current AC", String(_ampereCurrent) + "A");
-
     String textCurrent = String(_ampereCurrent) + "A";
     String textPower = String(_power) + "W";
+
+    LCD.text("Load AC", textCurrent + " " + textPower);
 
     BlynkApp.textLCD("Load AC", textCurrent + " " + textPower);
     BlynkApp.sendStatus(_isControlLoad);

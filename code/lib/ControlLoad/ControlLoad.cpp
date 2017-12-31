@@ -26,7 +26,7 @@ void ControlLoad::off() {
 }
 
 bool ControlLoad::isStatusControl(float current, float maxCurrent) {
-    return !(current >= maxCurrent);
+    return (current >= maxCurrent);
 }
 
 void ControlLoad::control(bool isControl) {
