@@ -1,0 +1,69 @@
+\documentclass[12pt,border=12pt]{standalone}
+\usepackage[utf8]{inputenc}
+\usepackage[utf8]{vietnam}
+\usepackage{times}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{flowchart}
+\usetikzlibrary{arrows}
+
+\begin{document}
+	\begin{tikzpicture}[>=latex']
+		\def\smbwd{6cm}
+		\def\smbwddecision{4cm}
+		\def\smbwddisplay{6.5cm}
+
+		\node (begin) at (0, 2) [draw, terminal, align=center, minimum width=\smbwd, minimum height=1cm] {Bắt đầu};
+
+		\node (define_value_control) at (0, .5) [draw, process, align=center, minimum width=\smbwd, minimum height=1cm] {$I_{max}; U = 220V; \cos \varphi = 0.86$};
+
+		\node (connect_wifi) at (0, -1.25) [draw, predproc, align=center, minimum width=\smbwd, minimum height=1cm] {Kết nối WiFi cho ESP8266\\Giao thức SmartConfig};
+
+		\node (connect_app) at (0, -3.5) [draw, predproc, align=center, minimum width=\smbwd, minimum height=1cm] {Kết nối với LCD \\ Kết nối với App Blynk\\Kết nối với Server Thingspeak};
+
+		\coordinate (point6) at (0,-4.75);
+
+		\node (blynk_load) at (0, -6) [draw, predproc, align=center, minimum width=\smbwd, minimum height=1cm] {Đọc trạng thái \\ điều khiển tải trên Blynk\\ Status};
+
+		\coordinate (point4) at (-3.5,-4.75);
+
+		\node (status_load) at (0, -8.5) [draw, decision, align=center, minimum width=\smbwddecision, minimum height=1cm] {Status?};
+
+		\coordinate (point1) at (3.5, 1.25);
+
+		\node (acs712_ac) at (7, 0) [draw, predproc, align=center, minimum width=\smbwd, minimum height=1cm] {Đo dòng điện AC \\ với cảm biến dòng ACS712 \\ $I_{AC}$};
+
+		\node (no_acs712_ac) at (0, -11) [draw, predproc, align=center, minimum width=\smbwd, minimum height=1cm] {$I_{AC} = 0$\\Không cho phép\\tải hoạt động};
+
+		\node (compare_current) at (7, -3) [draw, decision, align=center, minimum width=\smbwddecision, minimum height=1cm] {$I_{AC} < I_{max}$};
+
+		\node (control_load) at (7, -5.75) [draw, predproc, align=center, minimum width=\smbwddecision, minimum height=1cm] {Cho phép \\ tải hoạt động};
+
+		\node (no_control_load) at (11.5, -5.75) [draw, predproc, align=center, minimum width=\smbwddecision, minimum height=1cm] {Không cho phép \\ tải hoạt động};
+
+		\coordinate (point2) at (7,-7.125);
+
+		\coordinate (point3) at (3.8,-7.125);
+
+		\node (power) at (7, -8.5) [draw, predproc, align=center, minimum width=\smbwddecision, minimum height=1cm] {Công suất tiêu thụ\\$P = UI\cos\varphi$};
+
+		\node (display) at (7, -11) [draw, predproc, align=center, minimum width=\smbwd, minimum height=1cm] {Hiển thị dòng điện, công suất, \\ trạng thái hoạt động của tải \\ lên LCD, Blynk, Thingspeak};
+
+		\coordinate (point5) at (7,-12.25);
+
+		\draw[->] (begin) -- (define_value_control);
+		\draw[->] (define_value_control) -- (connect_wifi);
+		\draw[->] (connect_wifi) -- (connect_app);
+		\draw[->] (connect_app) -- (blynk_load);
+		\draw[->] (blynk_load) -- (status_load);
+		\draw[->] (status_load) -| node[above left]{Đúng} (point1) -| (acs712_ac);
+		\draw[->] (status_load) -- node[right]{Sai} (no_acs712_ac);
+		\draw[->] (acs712_ac) -- (compare_current);
+		\draw[->] (compare_current) -- node[right]{Đúng} (control_load);
+		\draw[->] (compare_current) -| node[above left]{Sai} (no_control_load);
+		\draw[->] (control_load) -- (power);
+		\draw[->] (no_control_load) |- (point2);
+		\draw[->] (no_acs712_ac) -| (point3) -- (point2);
+		\draw[->] (power) -- (display);
+		\draw[->] (display) -- (point5) -| (point4) -- (point6);
+	\end{tikzpicture}
+\end{document}

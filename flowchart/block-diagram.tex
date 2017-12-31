@@ -1,0 +1,48 @@
+\documentclass[12pt,border=12pt]{standalone}
+\usepackage[utf8]{inputenc}
+\usepackage[utf8]{vietnam}
+\usepackage{times}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{flowchart}
+\usetikzlibrary{arrows}
+
+\begin{document}
+	\begin{tikzpicture}[>=latex']
+		\def\smbwd{4cm}
+		\def\smbwddisplay{6.5cm}
+
+		% Mạch nguồn
+		\node (machnguon) at (0.5, 0) [draw, process, align=center, minimum width=\smbwd, minimum height=1cm] {Nguồn cấp ESP8266 \\ $5VDC \rightarrow 3.3VDC$};
+
+		% Vi điều khiển
+		\node (vidieukhien) at (6, 0) [draw, process, align=center, minimum width=\smbwd, minimum height=1cm] {Vi điều khiển \\ ESP8266 Wemos D1};
+
+		% Mạch công suất điểu khiển tải
+		\node (machcongsuat) at (6, 2.5) [draw, process, align=center, minimum width=\smbwd, minimum height=1cm] {Mạch công suất \\ Relay};
+
+		% Cảm biến dòng
+		\node (cambiendong) at (11, 2.5) [draw, process, align=center, minimum width=\smbwd, minimum height=1cm] {Cảm biến dòng điện\\ ACS712};
+
+		% Phụ tải một pha
+		\node (phutaimotpha) at (6, 5) [draw, process, align=center, minimum width=\smbwd, minimum height=1cm] {Phụ tải một pha \\ Đèn, quạt,...};
+
+		% Hiển thị dữ liệu với local
+		\node (dataLocal) at (11, -2) [draw, process, align=center, minimum width=\smbwddisplay, minimum height=1cm] {Hiển thị điện năng lên LCD};
+
+		% Hiển thị dữ liệu và điều khiển qua Blynk
+		\node (dataApp) at (11, -4) [draw, process, align=center, minimum width=\smbwddisplay, minimum height=1cm] {Hiển thị điện năng, điều khiển tải \\ qua App Blynk};
+
+		% Hiiển thị dữ liệu lên Thingspeak
+		\node (dataWeb) at (11, -6) [draw, process, align=center, minimum width=\smbwddisplay, minimum height=1cm] {Hiển thị điện năng \\ lên web server Thingspeak};
+
+		% Connect block
+		\draw[->] (machnguon) -- (vidieukhien);
+		\draw[->] (vidieukhien) |- (dataLocal);
+		\draw[->] (vidieukhien) |- (dataApp);
+		\draw[->] (vidieukhien) |- (dataWeb);
+		\draw[->] (vidieukhien) -- (machcongsuat);
+		\draw[->] (machcongsuat) -- (phutaimotpha);
+		\draw[->] (phutaimotpha) -| (cambiendong);
+		\draw[->] (cambiendong) |- (vidieukhien);
+	\end{tikzpicture}
+\end{document}
