@@ -4,16 +4,21 @@
 #include <Arduino.h>
 
 
+struct InitACS712_AC {
+    float _kVoltage, _sensitivity;
+};
 
 class PowerAC {
 private:
     unsigned char _current_pin;
-    float _kVoltage;
-    float _sensitivity;
+    unsigned char _type_sensor_current;
+    float _analogMax;
     float _milli_voltage_offset = 2500.0;
     unsigned short int _number_sample = 500;
     float _voltage = 220.0;
     float _cosphi = 0.86;
+
+    InitACS712_AC _init();
 
 public:
     PowerAC(unsigned char current_pin, unsigned char type_sensor_current, float analogMax);
