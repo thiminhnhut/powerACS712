@@ -8,7 +8,7 @@
 class PowerAC {
 private:
     unsigned char _current_pin;
-    unsigned char _kVoltage;
+    float _kVoltage;
     float _sensitivity;
     float _milli_voltage_offset = 2500.0;
     unsigned short int _number_sample = 500;

@@ -6,7 +6,7 @@
 class PowerDC {
 private:
     unsigned char _current_pin;
-    unsigned char _kVoltage;
+    float _kVoltage;
     float _milli_voltage_offset = 2500.0;
     float _sensitivity;
 
