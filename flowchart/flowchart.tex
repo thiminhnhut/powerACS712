@@ -22,48 +22,40 @@
 
 		\coordinate (point6) at (0,-4.75);
 
-		\node (blynk_load) at (0, -6) [draw, predproc, align=center, minimum width=\smbwd, minimum height=1cm] {Đọc trạng thái \\ điều khiển tải trên Blynk\\ Status};
+		\node (acs712_ac) at (0, -6) [draw, predproc, align=center, minimum width=\smbwd, minimum height=1cm] {Đo dòng điện AC \\ với cảm biến dòng ACS712 \\ $I_{AC}$};
 
-		\coordinate (point4) at (-3.5,-4.75);
+		\coordinate (node_acs712_ac) at (-3.5,-4.75);
+		\coordinate (node_acs712_ac_1) at (0,-4.75);
 
-		\node (status_load) at (0, -8.5) [draw, decision, align=center, minimum width=\smbwddecision, minimum height=1cm] {Status?};
+		\node (compare_current) at (6, 0) [draw, decision, align=center, minimum width=\smbwddecision, minimum height=1cm] {$I_{AC} < I_{max}$};
 
-		\coordinate (point1) at (3.5, 1.25);
+		\coordinate (node_compare_current) at (3.5, 0);
 
-		\node (acs712_ac) at (7, 0) [draw, predproc, align=center, minimum width=\smbwd, minimum height=1cm] {Đo dòng điện AC \\ với cảm biến dòng ACS712 \\ $I_{AC}$};
+		\node (overload) at (6, -3) [draw, predproc, align=center, minimum width=\smbwddecision, minimum height=1cm] {Không cảnh báo \\ quá tải};
 
-		\node (no_acs712_ac) at (0, -11) [draw, predproc, align=center, minimum width=\smbwd, minimum height=1cm] {$I_{AC} = 0$\\Không cho phép\\tải hoạt động};
+		\coordinate (node_overload) at (6, -4.5);
 
-		\node (compare_current) at (7, -3) [draw, decision, align=center, minimum width=\smbwddecision, minimum height=1cm] {$I_{AC} < I_{max}$};
+		\node (no_overload) at (11, -3) [draw, predproc, align=center, minimum width=\smbwddecision, minimum height=1cm] {Cảnh báo \\ quá tải};
 
-		\node (control_load) at (7, -5.75) [draw, predproc, align=center, minimum width=\smbwddecision, minimum height=1cm] {Cho phép \\ tải hoạt động};
+		\coordinate (node_no_overload) at (11, -4.5);
 
-		\node (no_control_load) at (11.5, -5.75) [draw, predproc, align=center, minimum width=\smbwddecision, minimum height=1cm] {Không cho phép \\ tải hoạt động};
+		\node (power) at (0, -8.5) [draw, predproc, align=center, minimum width=\smbwddecision, minimum height=1cm] {Công suất tiêu thụ\\$P = UI\cos\varphi$};
 
-		\coordinate (point2) at (7,-7.125);
+		\node (display) at (8, -6) [draw, predproc, align=center, minimum width=\smbwd, minimum height=1cm] {Hiển thị dòng điện, công suất, \\ trạng thái hoạt động của tải \\ lên LCD, Blynk, Thingspeak};
 
-		\coordinate (point3) at (3.8,-7.125);
-
-		\node (power) at (7, -8.5) [draw, predproc, align=center, minimum width=\smbwddecision, minimum height=1cm] {Công suất tiêu thụ\\$P = UI\cos\varphi$};
-
-		\node (display) at (7, -11) [draw, predproc, align=center, minimum width=\smbwd, minimum height=1cm] {Hiển thị dòng điện, công suất, \\ trạng thái hoạt động của tải \\ lên LCD, Blynk, Thingspeak};
-
-		\coordinate (point5) at (7,-12.25);
+		\coordinate (node_display) at (8, -9.5);
+		\coordinate (node_power) at (-3.5, -9.5);
 
 		\draw[->] (begin) -- (define_value_control);
 		\draw[->] (define_value_control) -- (connect_wifi);
 		\draw[->] (connect_wifi) -- (connect_app);
-		\draw[->] (connect_app) -- (blynk_load);
-		\draw[->] (blynk_load) -- (status_load);
-		\draw[->] (status_load) -| node[above left]{Đúng} (point1) -| (acs712_ac);
-		\draw[->] (status_load) -- node[right]{Sai} (no_acs712_ac);
-		\draw[->] (acs712_ac) -- (compare_current);
-		\draw[->] (compare_current) -- node[right]{Đúng} (control_load);
-		\draw[->] (compare_current) -| node[above left]{Sai} (no_control_load);
-		\draw[->] (control_load) -- (power);
-		\draw[->] (no_control_load) |- (point2);
-		\draw[->] (no_acs712_ac) -| (point3) -- (point2);
-		\draw[->] (power) -- (display);
-		\draw[->] (display) -- (point5) -| (point4) -- (point6);
+		\draw[->] (connect_app) -- (acs712_ac);
+		\draw[->] (acs712_ac) -- (power);
+		\draw[->] (power) -| (node_compare_current) -- (compare_current);
+		\draw[->] (compare_current) -- node[right]{Đúng}(overload);
+		\draw[->] (compare_current) -| node[above left]{Sai}(no_overload);
+		\draw[->] (overload) -- (node_overload) -| (display);
+		\draw (no_overload) -- (node_no_overload) -- (node_overload);
+		\draw[->] (display) -- (node_display) -- (node_power) -- (node_acs712_ac) -- (node_acs712_ac_1);
 	\end{tikzpicture}
 \end{document}

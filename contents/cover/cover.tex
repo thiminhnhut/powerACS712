@@ -1,0 +1,71 @@
+%----------------------------------------------------------------------------------------
+%    TITLE PAGE
+%    Tham khảo: https://www.overleaf.com/10408157zrdwddmpddkf#/38720772/
+%    Tham khảo: https://www.latextemplates.com/template/academic-title-page
+%----------------------------------------------------------------------------------------
+
+\begin{titlepage} % Suppresses displaying the page number on the title page and the subsequent page counts as page 1
+    \begin{tikzpicture}[remember picture, overlay]
+        \draw[line width = 3pt] ($(current page.north west) + (1.2in,-.75in)$) rectangle ($(current page.south east) + (-.65in,.75in)$);
+    \end{tikzpicture}
+    \newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for horizontal lines, change thickness here
+
+    \center % Centre everything on the page
+
+    %------------------------------------------------
+    %	Headings
+    %------------------------------------------------
+    \vspace*{-1.5cm}
+	{\large\bfseries TRƯỜNG ĐẠI HỌC \\ KỸ THUẬT -- CÔNG NGHỆ CẦN THƠ} \\ % Main heading such as the name of your university/college
+	{\large\bfseries KHOA ĐIỆN -- ĐIỆN TỬ -- VIỄN THÔNG} \\ [1cm]
+
+    %------------------------------------------------
+    %    Logo
+    %------------------------------------------------
+    \includegraphics[width=0.2\textwidth]{logo_ctut.pdf} \\ [.5cm] % Include a department/university logo - this will require the graphicx package
+
+    {\LARGE\bfseries ĐỒ ÁN HỆ THỐNG ĐIỆN} \\ [0.5cm] % Major heading such as course name
+
+    %\large{Minor Heading}\\[0.5cm] % Minor heading such as course title
+
+    %------------------------------------------------
+    %    Title
+    %------------------------------------------------
+
+    \vspace*{0.4cm}
+    % \HRule\\[0.4cm]
+
+    {\Large \bfseries ĐỀ TÀI \\ [0.2cm] THEO DÕI ĐIỆN NĂNG TIÊU THỤ CỦA PHỤ TẢI MỘT PHA VỚI CẢM BIẾN DÒNG ACS712} \\ [0.4cm] % Title of your document
+
+    % \HRule\\[1.0cm]
+
+    \vspace*{1.0cm}
+
+    %------------------------------------------------
+    %	Author(s)
+    %------------------------------------------------
+
+
+    \begin{tabular}{ll}
+        \multicolumn{2}{l}{{\large Giảng viên hướng dẫn: \quad Huỳnh Nguyễn Xuân Cần}}\vspace{.3cm}\\
+        \multicolumn{2}{l}{{\large Lớp: \quad Công nghệ kỹ thuật điện, điện tử  2014-2}}\vspace{.3cm}\\
+        {\large Nhóm sinh viên thực hiện:} &\vspace{.2cm}\\
+        {\large \hspace{1.5cm} 1. Huỳnh Như (MSSV:  1400012)}& \vspace{.2cm}\\
+        {\large \hspace{1.5cm} 2. Nguyễn Thị Anh Thư (MSSV: 1400450)}& \vspace{.2cm}\\
+    \end{tabular}
+
+
+    %------------------------------------------------
+    %	Date
+    %------------------------------------------------
+
+%    \vfill\vfill
+
+%    {\large\bfseries (Version TK-HTD-1.0.0)}
+
+    \vfill\vfill % Position the date 3/4 down the remaining page
+
+    {\large Cần Thơ, Năm 2017} % Date, change the \today to a set date if you want to be precise
+
+    %----------------------------------------------------------------------------------------
+\end{titlepage}

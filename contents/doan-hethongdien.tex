@@ -1,0 +1,193 @@
+%----------------------------------------------------------------------------------------
+%    Đề tài: Theo doi cong suat cua phu tai mot pha
+%
+%    Thực hiện: Thi Minh Nhut - Huynh Nhu - Nguyen Thi Anh Thu
+%
+%    Build: pdflatex -- pdflatex -- View PDF
+%
+%    Thời gian: Ngày 10 tháng 12 năm 2017
+%
+%----------------------------------------------------------------------------------------
+
+% Sử dụng fontsize 13pt, khổ giấy đứng A4 với lớp mở rộng của lớp report
+\documentclass[13pt,a4paper]{extreport}
+
+%% Cho phép biên dịch tiếng Việt trong LaTeX
+\usepackage[utf8]{inputenc}
+\usepackage[utf8]{vietnam}
+
+% Sử dụng font chữ Times New Roman
+\usepackage{times}
+
+% Gói lệnh thao tác đến các công thức toán
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+% Tự động thụt vào đầu dòng cho mỗi đoạn
+\usepackage{indentfirst}
+
+% Định dạng lề văn bản
+\usepackage[left=3.5cm,right=2cm,top=3cm,bottom=3cm,headsep=.15in]{geometry}
+
+% Gói lệnh cho phép thao tác với hình ảnh
+\usepackage{graphicx}        % trim option ={<left> <lower> <right> <upper>}
+\usepackage{subfig}
+\graphicspath{
+    {images/esp8266/}
+    {images/smartconfig/}
+    {images/arduino-ide/}
+    {images/blynk/}
+    {images/thingspeak/}
+    {images/acs712/}
+    {images/result/}
+    {../flowchart/}
+    {../schematic/}
+    {cover/}
+}
+
+% Tùy chỉnh style trong caption
+\usepackage[labelfont={it}, textfont={it}, skip=0pt]{caption}    % Định nghĩa style cho caption
+\setlength{\belowcaptionskip}{-10pt}        % Giảm khoảng cách từ caption đến text
+
+
+% Gói lệnh vẽ hình
+\usepackage{tikz}
+\usetikzlibrary{arrows, decorations.markings, calc, fadings, decorations.pathreplacing, patterns, decorations.pathmorphing, positioning}
+
+% Gói lệnh vẽ lưu đồ giải thuật
+\usepackage{flowchart}
+
+% Gói lệnh cho phép chèn code từ bên ngoài vào tài liệu
+\usepackage{listings}
+\lstset{frame=tb,
+    frame=none,
+    aboveskip=3mm,
+    belowskip=3mm,
+    showstringspaces=false,
+    columns=flexible,
+    basicstyle={\small\ttfamily},
+    breaklines=true,
+    breakatwhitespace=true,
+    tabsize=4,
+    inputpath={../code/acs712_arduino/}
+}
+
+
+% Chèn file tex từ ngoài vào tài liệu và bỏ đi phần đầu
+\usepackage[subpreambles=true]{standalone}
+\usepackage{import}
+
+\usepackage{verbatim}
+
+% Thêm chữ chương vào mục lục
+\usepackage{titletoc}%
+\titlecontents{chapter}% <section-type>
+    [0pt]% <left>
+    {\bfseries}% <above-code>
+    {\chaptername\ \thecontentslabel\quad}% <numbered-entry-format>
+    {}% <numberless-entry-format>
+    {\hfill\contentspage}% <filler-page-format>
+\usepackage[hidelinks=true,
+            pdfproducer={Mircosoft Office},
+            pdfcreator={Mircosoft Office}]{hyperref}
+%%% Tạo Headers và footers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{1.2pt}
+\renewcommand{\footrulewidth}{1.2pt}
+
+\fancyhead[L]{\textit{\leftmark}}
+\fancyfoot[L]{\textit{Đồ án Hệ thống điện}}
+\fancyfoot[R]{\thepage}
+\fancypagestyle{plain}{%
+    \renewcommand{\headrulewidth}{0pt}%
+    \renewcommand{\footrulewidth}{0pt}%
+    \fancyhf{}%
+    \fancyfoot[R]{\thepage}%
+}
+
+% Chế độ gõ công thức toán trên một dòng
+\everymath{\displaystyle}
+
+\renewcommand{\baselinestretch}{1.2}    % Giản dòng
+\setlength{\parskip}{6pt}    % Khoảng cách giữa các đoạn
+
+% Định nghĩa một số lệnh và môi trường mới
+
+% Dùng khi tham chiếu hình ảnh
+\newcommand{\fig}[1]{Hình~#1}
+% Tạo khoảng trống phía sau đơn vị
+\newcommand{\unit}[1]{~#1}
+% Tạo một trang trống
+\newcommand*\NewPage{\newpage\null\thispagestyle{empty}\newpage}
+
+%----------------------------------------------------------------------------------------
+%
+%    Nội dung chính của tài liệu nằm trong \begin{document} và \end{document}
+%
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+    %----------------------------------------------------------------------------------------
+    %    Trang bìa
+    %----------------------------------------------------------------------------------------
+    \pagenumbering{gobble} % Không đánh số trang cho trang bìa
+    \newgeometry{left=3.5cm,right=2cm,top=3cm,bottom=3cm,headsep=.15in}
+    \input{cover/cover}    % Bìa chính
+    % \input{cover/cover}    % Bìa phụ
+    \restoregeometry
+
+    \input{chapter/acknowledgements}
+
+    % Đánh số trang với chữ số i, ii,... cho các trang từ mục lục đến trước phần nội dung
+    \cleardoublepage
+    \pagenumbering{roman}
+
+
+    \makeatletter
+    \let\ps@plain\ps@fancy
+    \makeatother
+
+    %----------------------------------------------------------------------------------------
+    %    Mục lục
+    %----------------------------------------------------------------------------------------
+    \tableofcontents
+
+    % Đánh số trang với chữ số 1, 2,... cho các trang bắt đầu từ nội dung chính
+    \cleardoublepage
+    \pagenumbering{arabic}
+
+    %----------------------------------------------------------------------------------------
+    %    Chương 1 - Cơ sở lý thuyết
+    %----------------------------------------------------------------------------------------
+    \input{chapter/chapter1}
+
+
+    %----------------------------------------------------------------------------------------
+    %    Chương 2 - Sơ đồ mạch và nguyên lý hoạt động
+    %----------------------------------------------------------------------------------------
+    \input{chapter/chapter2}
+
+
+    %----------------------------------------------------------------------------------------
+    %    Chương 3 - Lưu đồ giải thuật và chương trình
+    %----------------------------------------------------------------------------------------
+    \input{chapter/chapter3}
+
+
+    %----------------------------------------------------------------------------------------
+    %    Chương 4 - Kết luận
+    %----------------------------------------------------------------------------------------
+    \input{chapter/chapter4}
+
+    %----------------------------------------------------------------------------------------
+    %    Tài liệu tham khảo
+    %----------------------------------------------------------------------------------------
+    \input{chapter/references}
+
+    % Tạo một trang trống cuối quyển đồ án
+    % \NewPage
+\end{document}

@@ -27,42 +27,42 @@ InitACS712_AC PowerAC::_init() {
     return _InitACS712_AC;
 }
 
-// float PowerAC::getCurrent() {
-//     return random(1, 20) + 0.15;
-// }
-
 float PowerAC::getCurrent() {
-    InitACS712_AC _InitACS712_AC = _init();
-
-    unsigned int minValue = 1024, maxValue = 0, deltaValue;
-
-    uint32_t start_time = millis();
-    while (millis() - start_time < 1000) {
-        unsigned short int _adc_value = analogRead(_current_pin);
-
-        if (_adc_value > maxValue) {
-            maxValue = _adc_value;
-        }
-
-        if (_adc_value < minValue) {
-            minValue = _adc_value;
-        }
-    }
-
-    if (maxValue - minValue <= 2) {
-        deltaValue = 0;
-    } else {
-        deltaValue = maxValue - minValue;
-    }
-
-    float _voltage = _InitACS712_AC._kVoltage*deltaValue*5.0/1024.0;
-
-    Serial.println("Min = " + String(minValue) + " Max = " + String(maxValue));
-
-    float _ampereCurrent = (_voltage*sqrt(2)*1000.0)/_InitACS712_AC._sensitivity;
-
-    return _ampereCurrent;
+    return random(1, 20) + 0.15;
 }
+
+// float PowerAC::getCurrent() {
+//     InitACS712_AC _InitACS712_AC = _init();
+//
+//     unsigned int minValue = 1024, maxValue = 0, deltaValue;
+//
+//     uint32_t start_time = millis();
+//     while (millis() - start_time < 1000) {
+//         unsigned short int _adc_value = analogRead(_current_pin);
+//
+//         if (_adc_value > maxValue) {
+//             maxValue = _adc_value;
+//         }
+//
+//         if (_adc_value < minValue) {
+//             minValue = _adc_value;
+//         }
+//     }
+//
+//     if (maxValue - minValue <= 5) {
+//         deltaValue = 0;
+//     } else {
+//         deltaValue = maxValue - minValue;
+//     }
+//
+//     float _voltage = _InitACS712_AC._kVoltage*deltaValue*5.0/1024.0;
+//
+//     Serial.println("Min = " + String(minValue) + " Max = " + String(maxValue));
+//
+//     float _ampereCurrent = (_voltage*sqrt(2)*1000.0)/_InitACS712_AC._sensitivity;
+//
+//     return _ampereCurrent;
+// }
 
 float PowerAC::getPower(float current) {
     return current*_voltage*_cosphi;
