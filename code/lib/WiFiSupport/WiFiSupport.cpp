@@ -41,9 +41,7 @@ void WiFiSupport::_smartConfig() {
 }
 
 void WiFiSupport::smartConfig() {
-    if (WiFi.status() != WL_CONNECTED) {
-        _smartConfig();
-    }
+    _smartConfig();
 
     WiFi.printDiag(Serial);
 }
@@ -58,12 +56,10 @@ void WiFiSupport::smartConfig(unsigned char ledStatus, bool status) {
         inactive = HIGH;
     }
 
-    if (WiFi.status() != WL_CONNECTED) {
-        pinMode(ledStatus, OUTPUT);
-        digitalWrite(ledStatus, active);
-        _smartConfig();
-        digitalWrite(ledStatus, inactive);
-    }
+    pinMode(ledStatus, OUTPUT);
+    digitalWrite(ledStatus, active);
+    _smartConfig();
+    digitalWrite(ledStatus, inactive);
 
     WiFi.printDiag(Serial);
 }
